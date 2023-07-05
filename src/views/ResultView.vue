@@ -16,11 +16,12 @@
         </el-pagination>
       </div>
 
-      <div class="grid gap-4 grid-cols-5">
+      <div class="grid grid-cols-5 gap-4">
         <UserCard
           v-for="user in store.state.userData?.items"
           :key="user.id"
           :user="user"
+          class="max-w-[300px] min-w-[200px]"
         >
         </UserCard>
       </div>
@@ -33,14 +34,21 @@
 
 <script setup>
 import store from "@/store";
-import sendRequest from "@/utils/request";
+import { requestWithHeaders } from "@/utils/request";
 import UserCard from "@/components/UserCard.vue";
 
-const onPrevClick = () => {
-  onPaginationClick(store.state.paginationLinkList.prev);
+const onPrevClick = (pageNumber) => {
+  console.log(pageNumber);
+  const url = new URL(store.state.paginationLinkList.last);
+  url.searchParams.set("page", pageNumber - 1);
+  onPaginationClick(url.toString());
 };
-const onNextClick = () => {
-  onPaginationClick(store.state.paginationLinkList.next);
+const onNextClick = (pageNumber) => {
+  console.log(pageNumber);
+
+  const url = new URL(store.state.paginationLinkList.last);
+  url.searchParams.set("page", pageNumber + 1);
+  onPaginationClick(url.toString());
 };
 
 const onCurrentChange = (pageNumber) => {
@@ -51,7 +59,7 @@ const onCurrentChange = (pageNumber) => {
 
 const onPaginationClick = async (url) => {
   if (url) {
-    const data = await sendRequest(url);
+    const data = await requestWithHeaders(url, false);
     store.commit("setUserData", data);
   }
 };

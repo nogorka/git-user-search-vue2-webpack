@@ -4,6 +4,7 @@
       :src="store.state.user.avatar_url"
       fit="fit"
       class="h-60 w-60 rounded-full"
+      lazy
     >
       <div slot="error" class="image-slot">
         <img src="@/assets/empty.jpg" />
@@ -16,18 +17,15 @@
 <script setup>
 import { onBeforeMount } from "vue";
 import { useRoute } from "vue-router/composables";
-import { request } from "@/utils/request";
+import { apiUserGet } from "@/utils/api";
 import store from "@/store";
 
 const route = useRoute();
 
 onBeforeMount(async () => {
-  store.commit("setUser", {});
+  store.commit("clearUser");
 
-  const response = await request(
-    `https://api.github.com/users/${route.query.login}`
-  );
-  const jsonData = await response.json();
-  store.commit("setUser", jsonData);
+  const result = apiUserGet(route.query.login);
+  store.commit("setUser", result);
 });
 </script>

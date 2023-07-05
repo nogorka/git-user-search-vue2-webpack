@@ -1,24 +1,29 @@
 import store from "@/store";
+import { Message } from "element-ui";
 
 const baseUrl = "https://api.github.com/search/users?";
 
-export const request = async (url) => {
-  return await fetch(url);
-};
-const sendRequest = async (url, useBaseUrl = true) => {
-  if (useBaseUrl) url = baseUrl + url;
-
+const request = async (url) => {
   const response = await fetch(url);
+  const result = await response.json();
 
   if (response.ok) {
-    const links = response.headers.get("link");
-    if (links) parseLinks(links);
-
-    return await response.json();
+    store.commit("setHeaders", response.headers);
+    return result;
   } else {
-    console.error(response.status, response);
+    console.error(response, result);
+    Message.error(`${response.status}: ${result.message}`);
     return null;
   }
+};
+
+export const requestWithHeaders = async (url, useBaseUrl = true) => {
+  if (useBaseUrl) url = baseUrl + url;
+
+  const data = await request(url);
+  const links = store.state.headers.get("link");
+  if (links) parseLinks(links);
+  return data;
 };
 
 const nextPattern = /<(\S*)>; rel="(\S*)"/i;
@@ -34,4 +39,4 @@ const parseLinks = (links) => {
   });
 };
 
-export default sendRequest;
+export default request;

@@ -1,10 +1,16 @@
 <template>
   <div
-    class="flex gap-2 p-1 bg-slate-50 rounded-lg cursor-pointer"
+    class="flex gap-2 p-1 bg-slate-100 rounded-lg cursor-pointer"
     @click="onUserClick"
   >
-    <el-image class="rounded-lg h-20 w-20" :src="user.avatar_url" lazy />
-    <span>{{ user.login }}</span>
+    <el-image
+      class="rounded-lg h-20 w-20 flex-none"
+      :src="user.avatar_url"
+      lazy
+    />
+    <span class="flex-shrink line-clamp-1">
+      {{ user.login }}
+    </span>
   </div>
 </template>
 <script>

@@ -13,6 +13,7 @@ const store = new Vuex.Store({
       prev: "",
     },
     user: {},
+    headers: {},
   },
   mutations: {
     setUserData(state, data) {
@@ -29,6 +30,12 @@ const store = new Vuex.Store({
     },
     setUser(state, data) {
       state.user = data;
+    },
+    clearUser(state) {
+      state.user = {};
+    },
+    setHeaders(state, data) {
+      state.headers = data;
     },
   },
 });

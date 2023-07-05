@@ -2,7 +2,7 @@
   <div id="app">
     <header class="flex flex-col">
       <div class="flex gap-2 justify-center">
-        <SearchBox />
+        <SearchForm />
       </div>
       <el-divider />
     </header>
@@ -12,5 +12,5 @@
 </template>
 
 <script setup>
-import SearchBox from "./components/SearchForm.vue";
+import SearchForm from "./components/SearchForm.vue";
 </script>

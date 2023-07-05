@@ -5,13 +5,13 @@
         type="text"
         v-model="form.input"
         placeholder="Введите имя автора"
-        @change="fetchData"
-        @keyup.enter="fetchData"
+        @change="submit"
+        @keyup.enter="submit"
         clearable
       />
     </el-form-item>
     <el-form-item>
-      <el-select v-model="form.filter" @change="fetchData">
+      <el-select v-model="form.filter" @change="submit">
         <el-option
           v-for="item in options"
           :key="item.id"
@@ -33,7 +33,7 @@ export default {
 <script setup>
 import { reactive, ref } from "vue";
 import store from "@/store";
-import sendRequest from "@/utils/request";
+import { requestWithHeaders } from "@/utils/request";
 import router from "@/router/index";
 
 const form = reactive({
@@ -56,7 +56,7 @@ const setParams = () => {
 };
 
 // move to store action
-const fetchData = async () => {
+const submit = async () => {
   setParams();
   const queryParams = new URLSearchParams(params.value).toString();
 
@@ -67,7 +67,7 @@ const fetchData = async () => {
   } else {
     await router.push({ name: "search", query: params.value });
 
-    const data = await sendRequest(queryParams);
+    const data = await requestWithHeaders(queryParams);
     store.commit("setUserData", data);
   }
 };
