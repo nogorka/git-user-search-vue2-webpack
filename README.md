@@ -1,41 +1,17 @@
-# vue-project
+# Тестовое задание (ImageSpark)
+Необходимо реализовать интерфейс поиска пользователей.
+Данные по пользователям берем с
+`https://api.github.com/search/users?q={имя пользователя}`
+[документация](https://developer.github.com/v3/search/#search-users)
 
-This template should help get you started developing with Vue 3 in Vite.
+Требования:
+- Поиск: по логину.
+- Сортировка: по кол-ву репозиториев (возрастанию/убыванию).
+- Использовать Vue.js 2 без vue-cli (использовать вебпак).
+- Подгрузка списка при скролле либо пагинация.
+- При клике на элемент - открываются подробности (как и какие на усмотрение разработчика).
+- Реализовать 3 юнит-теста на функционал (опционально).
 
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-npm run test:unit
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+Дополнительно:
+- Для работы с данными использовать Vuex
+- Для роутинга - VueRouter
