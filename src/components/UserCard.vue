@@ -13,11 +13,7 @@
     </span>
   </div>
 </template>
-<script>
-export default {
-  name: "UserCard",
-};
-</script>
+
 <script setup>
 import router from "@/router";
 
