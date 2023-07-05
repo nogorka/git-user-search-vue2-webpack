@@ -17,15 +17,11 @@
 <script setup>
 import { onBeforeMount } from "vue";
 import { useRoute } from "vue-router/composables";
-import { apiUserGet } from "@/utils/api";
 import store from "@/store";
 
 const route = useRoute();
 
 onBeforeMount(async () => {
-  store.commit("clearUser");
-
-  const result = apiUserGet(route.query.login);
-  store.commit("setUser", result);
+  store.dispatch("loadUser", route.query.login);
 });
 </script>

@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import { apiUserGet } from "@/utils/api";
 
 Vue.use(Vuex);
 
@@ -31,11 +32,17 @@ const store = new Vuex.Store({
     setUser(state, data) {
       state.user = data;
     },
-    clearUser(state) {
-      state.user = {};
-    },
+
     setHeaders(state, data) {
       state.headers = data;
+    },
+  },
+  actions: {
+    async loadUser(context, login) {
+      context.commit("setUser", {});
+
+      const result = await apiUserGet(login);
+      context.commit("setUser", result);
     },
   },
 });
