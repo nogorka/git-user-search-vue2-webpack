@@ -4,14 +4,14 @@
       <el-image
         :src="store.state.user.avatar_url"
         fit="fit"
-        class="h-[250px] w-[250px] rounded-full"
+        class="h-[250px] w-[250px] rounded-full flex-none"
         lazy
       >
         <div slot="error" class="image-slot">
           <img src="@/assets/empty.png" />
         </div>
       </el-image>
-      <div class="flex flex-col">
+      <div class="flex flex-col flex-grow">
         <span class="text-xl font-semibold"> {{ $store.state.user.name }}</span>
         <a :href="store.state.user.html_url">
           <span class=""> {{ $route.query.login }}</span>
