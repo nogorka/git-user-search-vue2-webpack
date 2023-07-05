@@ -36,31 +36,28 @@ const store = new Vuex.Store({
     },
   },
   actions: {
-    loadUser,
-    loadSearchUsers,
+    async loadUser({ commit }, login) {
+      commit("setUser", {});
+
+      const result = await apiUserGet(login);
+      commit("setUser", result);
+    },
+    async loadSearchUsers({ state, commit }, params) {
+      const data = await apiSearchUsersGet(params.toString());
+      commit("setUserList", data);
+
+      const links = state.headers.get("link");
+      if (links) {
+        links.split(",").forEach((link) => {
+          const match = link.trim().match(pattern);
+          commit("setLink", { type: match[2], url: match[1] });
+        });
+      }
+    },
+    async loadUserRepos({ commit }, login) {},
   },
 });
 
-const loadUser = async ({ commit }, login) => {
-  commit("setUser", {});
-
-  const result = await apiUserGet(login);
-  commit("setUser", result);
-};
-
 const pattern = /<(\S*)>; rel="(\S*)"/i;
-
-const loadSearchUsers = async ({ state, commit }, params) => {
-  const data = await apiSearchUsersGet(params.toString());
-  commit("setUserList", data);
-
-  const links = state.headers.get("link");
-  if (links) {
-    links.split(",").forEach((link) => {
-      const match = link.trim().match(pattern);
-      commit("setLink", { type: match[2], url: match[1] });
-    });
-  }
-};
 
 export default store;
