@@ -24,8 +24,7 @@ const store = new Vuex.Store({
       if (type) state.paginationLinkList[type] = url;
     },
     clearLinkList(state) {
-      const keys = Object.keys(state.paginationLinkList);
-      keys.forEach((key) => {
+      Object.keys(state.paginationLinkList).forEach((key) => {
         state.paginationLinkList[key] = "";
       });
     },
@@ -37,33 +36,31 @@ const store = new Vuex.Store({
     },
   },
   actions: {
-    async loadUser({ commit }, login) {
-      commit("setUser", {});
-
-      const result = await apiUserGet(login);
-      commit("setUser", result);
-    },
-    async loadSearchUsers({ commit }, params) {
-      const data = await apiSearchUsersGet(params.toString());
-      commit("setUserList", data);
-
-      const links = store.state.headers.get("link");
-      if (links) parseLinks(links);
-    },
+    loadUser,
+    loadSearchUsers,
   },
 });
 
-const nextPattern = /<(\S*)>; rel="(\S*)"/i;
+const loadUser = async ({ commit }, login) => {
+  commit("setUser", {});
 
-const parseLinks = (links) => {
-  const list = links.split(",");
-  list.forEach((link) => {
-    link = link.trim();
-    store.commit("setLink", {
-      type: link.match(nextPattern)[2],
-      url: link.match(nextPattern)[1],
+  const result = await apiUserGet(login);
+  commit("setUser", result);
+};
+
+const pattern = /<(\S*)>; rel="(\S*)"/i;
+
+const loadSearchUsers = async ({ state, commit }, params) => {
+  const data = await apiSearchUsersGet(params.toString());
+  commit("setUserList", data);
+
+  const links = state.headers.get("link");
+  if (links) {
+    links.split(",").forEach((link) => {
+      const match = link.trim().match(pattern);
+      commit("setLink", { type: match[2], url: match[1] });
     });
-  });
+  }
 };
 
 export default store;
