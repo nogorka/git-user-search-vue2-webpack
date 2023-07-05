@@ -1,7 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { apiUserGet } from "@/utils/api";
-import { requestWithHeaders } from "@/utils/request";
+import { apiUserGet, apiSearchUsersGet } from "@/utils/api";
 
 Vue.use(Vuex);
 
@@ -33,7 +32,6 @@ const store = new Vuex.Store({
     setUser(state, data) {
       state.user = data;
     },
-
     setHeaders(state, data) {
       state.headers = data;
     },
@@ -45,11 +43,27 @@ const store = new Vuex.Store({
       const result = await apiUserGet(login);
       commit("setUser", result);
     },
-    async loadSearchUsers({ commit }, url) {
-      const data = await requestWithHeaders(url, false);
+    async loadSearchUsers({ commit }, params) {
+      const data = await apiSearchUsersGet(params.toString());
       commit("setUserList", data);
+
+      const links = store.state.headers.get("link");
+      if (links) parseLinks(links);
     },
   },
 });
+
+const nextPattern = /<(\S*)>; rel="(\S*)"/i;
+
+const parseLinks = (links) => {
+  const list = links.split(",");
+  list.forEach((link) => {
+    link = link.trim();
+    store.commit("setLink", {
+      type: link.match(nextPattern)[2],
+      url: link.match(nextPattern)[1],
+    });
+  });
+};
 
 export default store;

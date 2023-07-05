@@ -40,6 +40,6 @@ const onPaginationClick = async (pageNumber) => {
   const url = new URL(store.state.paginationLinkList.last);
   url.searchParams.set("page", pageNumber);
 
-  if (url) store.dispatch("loadSearchUsers", url);
+  if (url) store.dispatch("loadSearchUsers", url.searchParams);
 };
 </script>

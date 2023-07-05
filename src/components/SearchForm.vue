@@ -31,9 +31,8 @@ export default {
 </script>
 
 <script setup>
-import { reactive, ref } from "vue";
+import { reactive } from "vue";
 import store from "@/store";
-import { requestWithHeaders } from "@/utils/request";
 import router from "@/router/index";
 
 const form = reactive({
@@ -47,28 +46,27 @@ const options = [
   { id: 2, label: "По возрастанию репозиториев" },
 ];
 
-const params = ref({ per_page: 35, q: "" });
+const params = reactive({ per_page: 35, q: "" });
 const setParams = () => {
-  params.value.q = form.input;
-  if (form.filter !== 0) params.value.sort = "repositories";
-  if (form.filter === 1) params.value.order = "desc";
-  if (form.filter === 2) params.value.order = "asc";
+  params.q = form.input;
+  if (form.filter !== 0) params.sort = "repositories";
+  if (form.filter === 1) params.order = "desc";
+  if (form.filter === 2) params.order = "asc";
 };
 
 // move to store action
 const submit = async () => {
   setParams();
-  const queryParams = new URLSearchParams(params.value).toString();
 
   store.commit("clearLinkList");
-  if (params.value.q === "") {
-    store.commit("setUserList", {});
+  store.commit("setUserList", {});
+
+  if (params.q === "") {
     await router.replace({ query: null });
   } else {
-    await router.push({ name: "search", query: params.value });
-
-    const data = await requestWithHeaders(queryParams);
-    store.commit("setUserList", data);
+    const searchParams = new URLSearchParams(params).toString();
+    store.dispatch("loadSearchUsers", searchParams);
+    await router.push({ name: "search", query: params });
   }
 };
 </script>
