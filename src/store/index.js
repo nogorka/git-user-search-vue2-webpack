@@ -1,12 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { apiUserGet } from "@/utils/api";
+import { requestWithHeaders } from "@/utils/request";
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    userData: {},
+    userList: {},
     paginationLinkList: {
       first: "",
       last: "",
@@ -17,8 +18,8 @@ const store = new Vuex.Store({
     headers: {},
   },
   mutations: {
-    setUserData(state, data) {
-      state.userData = data;
+    setUserList(state, data) {
+      state.userList = data;
     },
     setLink(state, { type, url }) {
       if (type) state.paginationLinkList[type] = url;
@@ -38,11 +39,15 @@ const store = new Vuex.Store({
     },
   },
   actions: {
-    async loadUser(context, login) {
-      context.commit("setUser", {});
+    async loadUser({ commit }, login) {
+      commit("setUser", {});
 
       const result = await apiUserGet(login);
-      context.commit("setUser", result);
+      commit("setUser", result);
+    },
+    async loadSearchUsers({ commit }, url) {
+      const data = await requestWithHeaders(url, false);
+      commit("setUserList", data);
     },
   },
 });

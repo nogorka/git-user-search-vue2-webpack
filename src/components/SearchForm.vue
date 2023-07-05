@@ -62,13 +62,13 @@ const submit = async () => {
 
   store.commit("clearLinkList");
   if (params.value.q === "") {
-    store.commit("setUserData", {});
+    store.commit("setUserList", {});
     await router.replace({ query: null });
   } else {
     await router.push({ name: "search", query: params.value });
 
     const data = await requestWithHeaders(queryParams);
-    store.commit("setUserData", data);
+    store.commit("setUserList", data);
   }
 };
 </script>
