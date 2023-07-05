@@ -7,7 +7,11 @@
       class="rounded-lg h-20 w-20 flex-none"
       :src="user.avatar_url"
       lazy
-    />
+    >
+      <div slot="error" class="image-slot">
+        <img :src="empty" />
+      </div>
+    </el-image>
     <span class="flex-shrink line-clamp-1">
       {{ user.login }}
     </span>
@@ -15,6 +19,7 @@
 </template>
 
 <script setup>
+import empty from "@/assets/empty.png";
 import router from "@/router";
 
 const props = defineProps({
