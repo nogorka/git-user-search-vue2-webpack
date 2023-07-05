@@ -1,10 +1,10 @@
 <template>
   <div class="flex flex-col gap-2">
-    <div class="flex gap-2">
+    <div class="flex gap-4">
       <el-image
         :src="store.state.user.avatar_url"
         fit="fit"
-        class="h-60 w-60 rounded-full"
+        class="h-[250px] w-[250px] rounded-full"
         lazy
       >
         <div slot="error" class="image-slot">
@@ -39,7 +39,32 @@
     <span class="text-lg font-semibold">
       Репозитории {{ $store.state.user.public_repos }}
     </span>
-    <pre>{{ store.state.user }}</pre>
+    <div
+      v-for="repo in store.state.reposList"
+      :key="repo.id"
+      class="flex flex-col p-2 bg-slate-100 rounded-lg"
+    >
+      <a href="">{{ repo.name }}</a>
+      <span>{{ repo.description }}</span>
+
+      <div class="flex justify-between">
+        <span class="text-sm text-slate-800">{{ repo.language }}</span>
+        <div class="flex gap-3">
+          <div class="flex">
+            <MaterialSymbolsStar />
+            <span class="text-sm text-slate-800">
+              {{ repo.stargazers_count }}
+            </span>
+          </div>
+          <div class="flex align-middle">
+            <MaterialSymbolsVisibilityRounded />
+            <span class="text-sm text-slate-800">
+              {{ repo.watchers_count }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -47,6 +72,8 @@
 import { onBeforeMount, computed } from "vue";
 import { useRoute } from "vue-router/composables";
 import store from "@/store";
+import MaterialSymbolsStar from "@/components/icons/star.vue";
+import MaterialSymbolsVisibilityRounded from "@/components/icons/eye.vue";
 
 const route = useRoute();
 

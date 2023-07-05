@@ -9,3 +9,7 @@ export const apiSearchUsersGet = async (params) => {
 export const apiUserGet = async (login) => {
   return await request(`${api}users/${login}`);
 };
+
+export const apiUserReposGet = async (login) => {
+  return await request(`${api}users/${login}/repos`);
+};

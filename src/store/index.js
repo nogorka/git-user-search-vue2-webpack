@@ -1,12 +1,12 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import { apiUserGet, apiSearchUsersGet } from "@/utils/api";
+import { apiUserGet, apiSearchUsersGet, apiUserReposGet } from "@/utils/api";
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    userList: {},
+    userList: [],
     paginationLinkList: {
       first: "",
       last: "",
@@ -15,6 +15,7 @@ const store = new Vuex.Store({
     },
     user: {},
     headers: {},
+    reposList: [],
   },
   mutations: {
     setUserList(state, data) {
@@ -33,6 +34,9 @@ const store = new Vuex.Store({
     },
     setHeaders(state, data) {
       state.headers = data;
+    },
+    setReposList(state, data) {
+      state.reposList = data;
     },
   },
   actions: {
@@ -54,7 +58,10 @@ const store = new Vuex.Store({
         });
       }
     },
-    async loadUserRepos({ commit }, login) {},
+    async loadUserRepos({ commit }, login) {
+      const data = await apiUserReposGet(login);
+      commit("setReposList", data);
+    },
   },
 });
 
