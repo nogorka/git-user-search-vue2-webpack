@@ -32,8 +32,7 @@ const props = defineProps({
 const onUserClick = () => {
   router.push({
     name: "user",
-    params: { id: props.user.id },
-    query: { login: props.user.login },
+    params: { login: props.user.login },
   });
 };
 </script>

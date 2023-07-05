@@ -24,7 +24,7 @@ import UserAbout from "@/components/UserAbout.vue";
 const route = useRoute();
 
 onBeforeMount(async () => {
-  store.dispatch("loadUser", route.query.login);
-  store.dispatch("loadUserRepos", route.query.login);
+  store.dispatch("loadUser", route.params.login);
+  store.dispatch("loadUserRepos", route.params.login);
 });
 </script>
