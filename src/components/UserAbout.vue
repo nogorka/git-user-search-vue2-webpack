@@ -31,7 +31,7 @@
       <span v-show="store.state.user.bio" class="text-sm text-slate-800">
         Био: {{ store.state.user.bio }}
       </span>
-      <span class="text-sm text-slate-800"> Учасник с {{ memberSince }}</span>
+      <span class="text-sm text-slate-800"> Участник с {{ memberSince }}</span>
     </div>
   </div>
 </template>

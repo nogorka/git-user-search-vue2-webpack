@@ -36,7 +36,7 @@
 import store from "@/store";
 import UserCard from "@/components/UserCard.vue";
 
-const onPaginationClick = async (pageNumber) => {
+const onPaginationClick = (pageNumber) => {
   const url = new URL(store.state.paginationLinkList.last);
   url.searchParams.set("page", pageNumber);
 

@@ -24,9 +24,9 @@ const router = new VueRouter({
       component: AboutView,
     },
     {
-      path: '*',
-      redirect: '/'
-    }
+      path: "*",
+      redirect: "/",
+    },
   ],
 });
 
