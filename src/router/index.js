@@ -6,7 +6,6 @@ import AboutView from "@/views/AboutView.vue";
 Vue.use(VueRouter);
 
 const router = new VueRouter({
-  mode: "history",
   base: "/",
   routes: [
     {
@@ -24,6 +23,10 @@ const router = new VueRouter({
       name: "user",
       component: AboutView,
     },
+    {
+      path: '*',
+      redirect: '/'
+    }
   ],
 });
 
